@@ -5,7 +5,8 @@
 ### Description
 
 This project is about an application running on a server (calculator) that accepts a set of requests from a client application.<br/>
-It is designed and tested on a linux machine.
+It is designed and tested on a linux machine.<br/><br/>
+**Current build only works with both client/server on the same machine.**
 
 ### Installation and run instructions
 
