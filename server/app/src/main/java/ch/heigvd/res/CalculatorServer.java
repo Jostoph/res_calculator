@@ -45,7 +45,8 @@ public class CalculatorServer {
 
         try {
             // create server socket
-            serverSocket = new ServerSocket(listenPort, 50,  InetAddress.getLocalHost());
+            // serverSocket = new ServerSocket(listenPort, 50,  InetAddress.getLocalHost());
+            serverSocket = new ServerSocket(listenPort);
 
             // create client socket and wait for client (supports only a single client)
             System.out.println("Waiting for a client...");

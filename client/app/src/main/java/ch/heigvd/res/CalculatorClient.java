@@ -1,9 +1,7 @@
 package ch.heigvd.res;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * Class ch.heigvd.res.CalculatorClient
@@ -21,17 +19,7 @@ public class CalculatorClient {
     // the port number
     private final int connexionPort = 2019;
     // the server ip
-    private String serverIP;
-
-    // constructor with chosen IP
-    private CalculatorClient(String serverIP) {
-        this.serverIP = serverIP;
-    }
-
-    // constructor with default IP (localhost)
-    private CalculatorClient() throws UnknownHostException {
-        this.serverIP = InetAddress.getLocalHost().getHostAddress();
-    }
+    private String serverIP = "calculator_server";
 
     /**
      * Does the entire processing
@@ -134,17 +122,8 @@ public class CalculatorClient {
      */
     public static void main(String[] args) {
         // create new client instance
-        CalculatorClient client;
-        try {
-            if(args.length > 0) {
-                client = new CalculatorClient(args[0]);
-            } else {
-                client = new CalculatorClient();
-            }
-            // start client
-            client.start();
-        } catch (UnknownHostException ex) {
-            System.out.println("Unknown host : " + ex.getMessage());
-        }
+        CalculatorClient client = new CalculatorClient();
+        // start client
+        client.start();
     }
 }
