@@ -1,10 +1,12 @@
+package ch.heigvd.res;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Class CalculatorServer
+ * Class ch.heig.res.CalculatorServer
  *
  * Simple TCP server that binds a server socket on port 2019 and waits that a client connects.
  * When the connection with the client is established (supports only one client) the server asks
@@ -46,6 +48,8 @@ public class CalculatorServer {
             serverSocket = new ServerSocket(listenPort, 50,  InetAddress.getLocalHost());
 
             // create client socket and wait for client (supports only a single client)
+            System.out.println("Waiting for a client...");
+
             clientSocket = serverSocket.accept();
 
             System.out.println("Client connected");

@@ -1,0 +1,8 @@
+FROM java:8
+MAINTAINER Jostoph
+
+COPY
+
+EXPOSE 2019
+
+CMD
