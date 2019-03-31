@@ -2,6 +2,10 @@
 /server/app/target
 /server/app/.idea
 
+/client/app/app.iml
+/client/app/target
+/client/app/.idea
+
 **/*.jar
 
 
