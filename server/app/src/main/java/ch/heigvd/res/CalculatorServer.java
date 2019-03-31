@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Class ch.heig.res.CalculatorServer
+ * Class ch.heigvd.res.CalculatorServer
  *
  * Simple TCP server that binds a server socket on port 2019 and waits that a client connects.
  * When the connection with the client is established (supports only one client) the server asks
@@ -54,7 +54,7 @@ public class CalculatorServer {
 
             System.out.println("Client connected");
 
-            // create input steam reader
+            // create input stream reader
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             // create output stream writer
             writer = new PrintWriter(clientSocket.getOutputStream());
@@ -66,7 +66,7 @@ public class CalculatorServer {
 
             writer.println("Welcome on the server !\n");
             writer.println("What do you want to compute ? Type : (help) to have the list of commands");
-            writer.flush();
+            send(writer);
 
             // processing loop, loop until client quits (or fatal error)
             while (running) {
@@ -76,30 +76,26 @@ public class CalculatorServer {
                 tokens = inputString.split(" ");
 
                 // parse command
-                switch (tokens[0]) {
-                    case "" :
-                        break;
-                    case "quit" :
-                        running = false;
-                        break;
-                    case "exit" :
-                        running = false;
-                        break;
-                    case "help" :
-                        printHelp(writer);
-                        break;
-                    default :
-                        if(tokens.length != 3) {
-                            invalidCMD(writer);
+                if(tokens.length == 1) {
+                    switch (tokens[0]) {
+                        case "" :
                             break;
-                        }
-                        try {
-                            a = Double.parseDouble(tokens[1]);
-                            b = Double.parseDouble(tokens[2]);
-                        } catch (NumberFormatException nfe) {
-                            invalidArguments(writer);
+                        case "quit" :
+                            running = false;
                             break;
-                        }
+                        case "exit" :
+                            running = false;
+                            break;
+                        case "help" :
+                            printHelp(writer);
+                            break;
+                        default :
+                    }
+                } else if(tokens.length == 3) {
+                    try {
+                        a = Double.parseDouble(tokens[1]);
+                        b = Double.parseDouble(tokens[2]);
+
                         switch (tokens[0]) {
                             case "add" :
                                 writer.println(tokens[1] + " + " + tokens[2] + " = " + (a + b) + "\n");
@@ -116,15 +112,19 @@ public class CalculatorServer {
                             default:
                                 invalidCMD(writer);
                         }
+                    } catch (NumberFormatException nfe) {
+                        invalidArguments(writer);
+                    }
+                } else {
+                    invalidCMD(writer);
                 }
 
                 if(running) {
-                    writer.println("Enter another command (quit) to exit :\n");
-                    writer.flush();
+                    writer.println("Enter another command (quit) to exit :");
                 } else {
                     writer.println("\nbye !");
-                    writer.flush();
                 }
+                send(writer);
             }
 
 
@@ -162,12 +162,21 @@ public class CalculatorServer {
     }
 
     /**
+     * Add a message to tell the client that it is the last line
+     * and flushes the writer
+     * @param writer the output stream writer
+     */
+    private void send(PrintWriter writer) {
+        writer.println("\nmsg_end");
+        writer.flush();
+    }
+
+    /**
      * Informs the client that command he entered is invalid
      * @param writer the output stream writer
      */
     private void invalidCMD(PrintWriter writer) {
-        writer.println("Invalid command ! Please type (help) to get the commands list.\n");
-        writer.flush();
+        writer.println("Invalid command ! Please type (help) to get the commands list.");
     }
 
     /**
@@ -175,8 +184,7 @@ public class CalculatorServer {
      * @param writer the output stream writer
      */
     private void invalidArguments(PrintWriter writer) {
-        writer.println("Invalid arguments ! Please be sure to enter legit numbers !\n");
-        writer.flush();
+        writer.println("Invalid arguments ! Please be sure to enter legit numbers !");
     }
 
     /**
