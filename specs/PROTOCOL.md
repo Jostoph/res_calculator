@@ -9,7 +9,7 @@
 
 - How does the client find the server (addresses and ports)?
 
-    This client-server application is working on a custom network that is created with docker.<br/>
+    At the momenet the client needs to write the server (host ip) in the docker files before runnning the install-run-sh file. (local network)<br/>
     The server is listening on port 2019.
 
 - Who speaks first?

@@ -19,7 +19,11 @@ public class CalculatorClient {
     // the port number
     private final int connexionPort = 2019;
     // the server ip
-    private String serverIP = "calculator_server";
+    private String serverIP;
+
+    public CalculatorClient(String serverIP) {
+        this.serverIP = serverIP;
+    }
 
     /**
      * Does the entire processing
@@ -121,8 +125,13 @@ public class CalculatorClient {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        if(args.length != 1) {
+            System.out.println("Wrong number of arguments\n");
+            return;
+        }
         // create new client instance
-        CalculatorClient client = new CalculatorClient();
+        CalculatorClient client = new CalculatorClient(args[0]);
         // start client
         client.start();
     }

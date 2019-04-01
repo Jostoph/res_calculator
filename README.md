@@ -20,9 +20,3 @@ In the server folder :
 In the client folder :
 
 - execute install-run.sh : (ex : ./install-run.sh)
-
-#### network cleaning
-
-If you want to remove the network used to run the application run the clean_network.sh file
-
-- ./clean_network.sh
